@@ -249,11 +249,11 @@ showInvalid' a b op invalidVariant = do
   skipOperand <- bool (Gen.constant 0) (Gen.int (Range.constant 1 2)) doSkipOperand
   let (eBeg:eRest) = map (bool "" "LOL" . (==extraPos)) [1..6]
   return $ eBeg ++ concat (zipWith (++)
-                           [ bool "" "(" (skipParen /= 2)
-                           , bool "" as (skipOperand /= 2)
-                           , bool (bool op "$" doFakeOperation) "" doSkipOperation
-                           , bool "" bs (skipOperand /= 1)
-                           , bool "" ")" (skipParen /= 1) ] eRest)
+                           [ bool " " "(" (skipParen /= 2)
+                           , bool " " as (skipOperand /= 2)
+                           , bool (bool (" " ++ op ++ " ") " $ " doFakeOperation) " " doSkipOperation
+                           , bool " " bs (skipOperand /= 1)
+                           , bool " " ")" (skipParen /= 1) ] eRest)
 
 showInvalid :: Expr -> InvalidVariant -> Gen String
 showInvalid (Val x)        = \_ ->return $ showDouble x
